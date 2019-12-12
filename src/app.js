@@ -57,6 +57,10 @@ const task = async () => ebird
             a => resultingObservationIds.indexOf(a) !== -1
         );
 
+        const staleObservationIds = pastObservationIds.filter(
+            a => resultingObservationIds.indexOf(a) === -1
+        );
+
         // for logging purposes
         const staleObservationCount =
             pastObservationIds.length - nonStaleObservationIds.length;
@@ -68,7 +72,7 @@ const task = async () => ebird
 
         await storage.setItem('observationIds', storedObservationIds);
 
-        issueCheckLog(uniqueNewObservationIds.length, staleObservationCount);
+        issueCheckLog(uniqueNewObservationIds.length, staleObservationCount, staleObservationIds);
 
         // nothing new, end
         if (!uniqueNewObservationIds.length) {

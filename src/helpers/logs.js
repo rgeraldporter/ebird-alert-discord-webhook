@@ -8,7 +8,7 @@ if (DISCORD_LOG_WEB_HOOK_URL !== '') {
     LogHook = new webhook.Webhook(DISCORD_LOG_WEB_HOOK_URL);
 }
 
-const issueInitLog = (count) => {
+const issueInitLog = count => {
     console.log('Initialized Observations:', count);
 
     if (!LogHook) {
@@ -24,8 +24,7 @@ const issueInitLog = (count) => {
     LogHook.send(logMsg);
 };
 
-const issueCheckLog = (newCount, staleCount) => {
-
+const issueCheckLog = (newCount, staleCount, stales) => {
     console.log('New Observations:', newCount);
     console.log('Stale Observations:', staleCount);
 
@@ -37,10 +36,13 @@ const issueCheckLog = (newCount, staleCount) => {
         .setName('eBird Alert Webhook Log')
         .setColor('#aabbcc')
         .addField('New observation alerts issued', newCount)
-        .addField('Stale observations cleared', staleCount)
+        .addField(
+            'Stale observations cleared',
+            `${staleCount}: ${JSON.stringify(stales)}`
+        )
         .setTime();
 
     LogHook.send(logMsg);
 };
 
-module.exports = {issueCheckLog, issueInitLog};
+module.exports = { issueCheckLog, issueInitLog };
