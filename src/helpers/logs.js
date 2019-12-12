@@ -38,7 +38,7 @@ const issueCheckLog = (newCount, staleCount, stales) => {
         .addField('New observation alerts issued', newCount)
         .addField(
             'Stale observations cleared',
-            `${staleCount}: ${JSON.stringify(stales)}`
+            `${staleCount}: ${JSON.stringify(stales).substring(0, 900);}`
         )
         .setTime();
 
