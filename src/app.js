@@ -53,9 +53,10 @@ const task = async () => ebird
         const uniqueNewObservationIds = [...new Set(newObservationIds)];
 
         // keep only observation ids that are still present in the eBird response
-        const nonStaleObservationIds = pastObservationIds.filter(
+        /*const nonStaleObservationIds = pastObservationIds.filter(
             a => resultingObservationIds.indexOf(a) !== -1
-        );
+        );*/
+        const nonStaleObservationIds = pastObservationIds;
 
         const staleObservationIds = pastObservationIds.filter(
             a => resultingObservationIds.indexOf(a) === -1
