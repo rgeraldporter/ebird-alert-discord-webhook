@@ -1,0 +1,19 @@
+{
+  "name": "ebird-alert",
+  "version": "0.1.0",
+  "description": "eBird alerts webhook for discord",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Gerald Porter <rob@inpictures.ca>",
+  "license": "MIT",
+  "dependencies": {
+    "@rgeraldporter/ebird-client": "1.2.0",
+    "cron": "1.7.2",
+    "dotenv": "8.2.0",
+    "moment": "2.24.0",
+    "node-persist": "3.0.5",
+    "webhook-discord": "3.5.1"
+  }
+}
