@@ -1,6 +1,6 @@
 {
   "name": "ebird-alert",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "eBird alerts webhook for discord",
   "main": "src/app.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "@rgeraldporter/ebird-client": "1.2.0",
     "cron": "1.7.2",
     "dotenv": "8.2.0",
+    "glob": "7.1.6",
     "moment": "2.24.0",
     "node-persist": "3.0.5",
     "webhook-discord": "3.5.1"

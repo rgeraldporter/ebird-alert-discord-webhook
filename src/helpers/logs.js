@@ -24,7 +24,7 @@ const issueInitLog = count => {
     LogHook.send(logMsg);
 };
 
-const issueCheckLog = (newCount, staleCount, stales) => {
+const issueCheckLog = (newCount, staleCount) => {
     console.log('New Observations:', newCount);
     console.log('Stale Observations:', staleCount);
 
@@ -33,8 +33,8 @@ const issueCheckLog = (newCount, staleCount, stales) => {
     }
 
     const logMsg = new webhook.MessageBuilder()
-        .setName('eBird Alert Webhook Log')
-        .setColor('#aabbcc')
+        .setName('eBird Alert Webhook Log LOCAL')
+        .setColor('#ffffff')
         .addField('New observation alerts issued', newCount)
         .addField(
             'Stale observations cleared',

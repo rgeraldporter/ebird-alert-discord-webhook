@@ -13,19 +13,19 @@ if (!Hook) {
 
 const getCounty = code => counties.find(a => a.code === code).name;
 
-const issueBatchHeader = async count => {
+const issueBatchHeader = (count, name = 'unnamed user') => {
     const batchMsg = new webhook.MessageBuilder()
-        .setName('eBird Alert Ontario')
+        .setName(name)
         .setText(
             `${count} new observation(s) reported as of ${moment().format(
                 'LLLL'
             )}:`
         );
 
-    return await Hook.send(batchMsg);
+    return batchMsg;
 };
 
-const issueObservationAlert = observationData => {
+const observationAlert = (observationData, name = 'unnamed user') => {
     const {
         comName: commonName,
         howMany,
@@ -38,7 +38,7 @@ const issueObservationAlert = observationData => {
     } = observationData;
 
     const msg = new webhook.MessageBuilder()
-        .setName('eBird Alert Ontario')
+        .setName(name)
         .setColor('#00ff00')
         .addField(`Observation #${id}`, `${commonName} (${howMany})`)
         .addField('Location Found', `${location} (${getCounty(countyCode)})`)
@@ -49,15 +49,13 @@ const issueObservationAlert = observationData => {
                 observationDatetime
             ).fromNow()})`
         )
-        .addField(
-            'Checklist URL',
-            `https://ebird.org/checklist/${checklistId}`
-        );
+        .addField('Checklist URL', `https://ebird.org/checklist/${checklistId}`)
+        .setTime();
 
-    Hook.send(msg);
+    return msg;
 };
 
-const issueObservationAlerts = (data, ids) =>
+const issueObservationAlerts = (data, ids, name) =>
     ids.map(id => {
         const observationData = data.find(a => a.obsId === id);
 
@@ -66,9 +64,7 @@ const issueObservationAlerts = (data, ids) =>
             return;
         }
 
-        issueObservationAlert(observationData);
-
-        return id;
+        return observationAlert(observationData, name);
     });
 
 const issueErrorAlert = err => {
@@ -82,7 +78,6 @@ const issueErrorAlert = err => {
 
 module.exports = {
     issueBatchHeader,
-    issueObservationAlert,
     issueObservationAlerts,
     issueErrorAlert
 };
