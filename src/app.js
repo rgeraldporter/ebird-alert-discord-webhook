@@ -71,6 +71,7 @@ const taskRun = options => async () =>
             );
 
             // sometimes the eBird API has duplicates for an unknown reason
+            // `Set` forces values to be unique
             const uniqueNewObservationIds = [...new Set(newObservationIds)];
 
             // keep only observation ids that are still present in the eBird response
@@ -109,6 +110,7 @@ const taskRun = options => async () =>
                 const {
                     displayName,
                     conditions = [],
+                    exclusions = [],
                     url,
                     disabled = false
                 } = hook;
@@ -121,13 +123,20 @@ const taskRun = options => async () =>
                     .filter(c => c.property === 'county')
                     .map(c => c.value);
 
-                const filteredIds = uniqueNewObservationIds.filter(id => {
-                    const observationData = data.find(a => a.obsId === id);
-                    return (
-                        counties.indexOf(observationData.subnational2Code) !==
-                        -1
-                    );
-                });
+                const filteredIds = uniqueNewObservationIds
+                    // filter by county
+                    .filter(id => {
+                        const observationData = data.find(a => a.obsId === id);
+                        return (
+                            counties.indexOf(observationData.subnational2Code) !==
+                            -1
+                        );
+                    })
+                    // filter by excluded terms, such as "Owl"
+                    .filter(id => {
+                        const observationData = data.find(a => a.obsId === id);
+                        return (exclusions.indexOf(observationData.comName) === -1)
+                    })
 
                 const ids = counties.length
                     ? filteredIds
